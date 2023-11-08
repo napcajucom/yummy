@@ -1,0 +1,196 @@
+{%- if section.settings.space_around -%}
+  <div class="index-section">
+{%- endif -%}
+  {%- if section.settings.title != blank -%}
+  <div class="page-width">
+    <div class="section-header">
+      <h2 class="section-header__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.description != blank -%}
+      <div class="banner-grid--description">{{ section.settings.description }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- endif -%}
+{%- unless section.settings.full_width -%}
+  <div class="page-width">
+{%- endunless -%}
+  <div class="banner-grid-wrap grid grid--tight">
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign block_width = 'small--one-whole one-half'
+    -%}
+    <div class="banner-grid-item {{ block_width }} grid__item" {{ block.shopify_attributes }}>
+      <div class="banner-grid-item--inner">
+        {%- if block.settings.heading != blank -%}
+        <h2>{{ block.settings.heading }}</h2>
+        {%- endif -%}
+        <div class="banner-grid-item--image div--{{ section.settings.aspect_ratio }}">
+          <div class="aos-animate">
+            {%- if block.settings.image != blank -%}
+              <div class="image-wrap" style="height: 0; padding-bottom: {{ 100 | divided_by: block.settings.image.aspect_ratio }}%;">
+                {%- liquid
+                  assign blockWidth = block.settings.width | remove: '%' | times: 1
+                  if forloop.index == 1 and blockWidth >= 50
+                    assign loading = section.settings.lazyload_images
+                  else
+                    assign loading = true
+                  endif
+                -%}
+                {%- render 'image-element',
+                  img: block.settings.image,
+                  loading: loading,
+                  sizeVariable: block.settings.width,
+                  widths: '360, 540, 720, 900, 1080, 1600',
+                -%}
+              </div>
+              {%- else -%}
+                <div class="image-wrap">
+                  {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="banner-grid-items-wrapper">
+          {%- if block.settings.text != blank -%}
+          <div class="banner-grid-item--text">
+            <div class="banner-grid-item--text-wrap">
+            {{ block.settings.text }}
+            </div>
+          </div>
+          {%- endif -%}
+          {%- if block.settings.button_text != blank -%}
+          <div class="banner-grid-item--button">
+            <a href="{{ block.settings.link }}" class="btn">{{ block.settings.button_text }}</a>
+          </div>
+          {%- endif -%}
+        </div>  
+        
+      
+      </div>
+    </div>
+  {%- endfor -%}
+  {%- if section.blocks.size == 0 -%}
+    <div class="page-width">
+      <div class="grid">
+        <div class="grid__item">
+          <div class="rte">
+            {{ 'home_page.onboarding.no_content' | t }}
+          </div>
+        </div>
+      </div>
+   </div>
+  {%- endif -%}
+  </div>
+{%- unless section.settings.full_width -%}
+  </div>
+{%- endunless -%}
+{%- if section.settings.space_around -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Banner Grid",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Description"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Grid Image Aspect Ratio",
+      "default": "square",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "actual",
+          "label": "Actual"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.advanced-content.settings.full_width.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "space_around",
+      "label": "t:sections.advanced-content.settings.space_around.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "lazyload_images",
+      "label": "t:common.lazyload_images.label",
+      "info": "t:common.lazyload_images.info",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },        
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Caption"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner Grid Mars",
+      "blocks": [
+        {
+          "type": "banner",
+          "settings": {
+            "heading": "Banner heading",
+            "text": "<p>Banner caption</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["custom.popups","header","footer"]
+  }
+}
+{% endschema %}

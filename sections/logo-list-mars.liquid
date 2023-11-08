@@ -1,0 +1,117 @@
+{%- style -%}
+.logo-slider--{{ section.id }} {
+  opacity: {{ section.settings.logo_opacity | divided_by: 100.0 }};
+}
+{%- endstyle -%}
+
+<div
+  class="logo-slider-section logo-slider-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="logo-slider"
+  data-aos>
+  <div class="page-width page-width--narrow" data-aos="logo__animation">
+    {%- if section.settings.title != blank -%}
+      <div class="section-header">
+        <h2 class="section-header__title">{{ section.settings.title | escape }}</h2>
+      </div>
+    {%- endif -%}
+    {% assign current_caption = ''  %}
+    {%- if section.blocks.size > 0 -%}
+      <div class="slideshow-wrapper logo-slider--{{ section.id }}">
+        <div
+          class="logo-slider"
+          id="LogoSlider-{{ section.id }}"
+          data-dots="true"
+          data-count="{{ section.blocks.size }}">
+        {%- for block in section.blocks -%}
+          <div class="logo-slide logo-slide--{{ block.id }}">
+            {%- if block.settings.image != blank -%}
+              {%- render 'image-element',
+                img: block.settings.image,
+                widths: '180, 360, 540, 720',
+                classes: 'logo-slide--image',
+                sizeVariable: '160px',
+                fallback: '110px',
+              -%}
+              
+            {%- else -%}
+              {{ 'logo' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+            <div class="logo-slide--caption">"{{ block.settings.text  | strip_html  }}"</div>
+          </div>
+          {%- if forloop.index == 1 -%}
+            {% assign current_caption = block.settings.text %}
+          {% endif %}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="logo-caption--holder">"{{ current_caption | strip_html }}"</div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Logo List Mars",
+  "class": "index-section",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.logo-list.settings.title.label"
+    },
+    {
+      "type": "range",
+      "id": "logo_opacity",
+      "label": "t:sections.logo-list.settings.logo_opacity.label",
+      "default": 76,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo_image",
+      "name": "t:sections.logo-list.blocks.logo.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.logo-list.blocks.logo.settings.image.label"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Quote",
+          "default": "<p>Quote text here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo List Mars",
+      "blocks": [
+        {
+          "type": "logo_image"
+        },
+        {
+          "type": "logo_image"
+        },
+        {
+          "type": "logo_image"
+        },
+        {
+          "type": "logo_image"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header", "custom.popups"]
+  }
+}
+{% endschema %}

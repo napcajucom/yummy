@@ -1,0 +1,195 @@
+
+<div class="page-width">
+  {%- if section.blocks.size > 0 -%}
+  <div class="megamenu-wrap">
+    {%- for block in section.blocks -%}
+        {% case block.type %}
+          {% when 'link-list'%}
+            <div class="megamenu-block megamenu-block--link-list" style="width:{{ block.settings.block_width }}%">
+              {%- if block.settings.subtitle != blank -%}
+                <div class="megamenu-subtitle h5">{{ block.settings.subtitle | escape }}</div>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <div class="megamenu-title h4">{{ block.settings.title | escape }}</div>
+              {%- endif -%}
+
+              Link list here<br />
+              View all link here
+            </div>
+
+          {% when 'feature' %}
+          <div class="megamenu-block megamenu-block--feature" style="width:{{ block.settings.block_width }}%">
+            <div class="megamenu-feature">
+              <div class="megamenu-feature--image">
+                Image here
+              </div>
+              <div class="megamenu-feature--text">
+                {%- if block.settings.subtitle != blank -%}
+                  <div class="megamenu-subtitle h5">{{ block.settings.subtitle | escape }}</div>
+                {%- endif -%}
+                {%- if block.settings.title != blank -%}
+                  <div class="megamenu-title h4">{{ block.settings.title | escape }}</div>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <p class="megamenu-text">{{ block.settings.text }}</p>
+                {%- endif -%}
+                Button here with button text
+              </div>
+            </div>
+          </div>
+
+        {% endcase %}
+    {%- endfor -%}
+  </div>
+  {%- endif -%}
+
+  {%- if section.blocks.size == 0 -%}
+    <div class="placeholder-noblocks">
+      {{ 'home_page.onboarding.no_content' | t }}
+    </div>
+  {%- endif -%}
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Megamenu",
+  "class": "section-megamenu",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Megamenu title",
+      "default": "Megamenu"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link-list",
+      "name": "Link list",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Shop by"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Collection"
+        },
+        {
+          "type": "link_list",
+          "id": "link_list",
+          "label": "Menu",
+          "default": "main-menu"
+        },
+        {
+          "type": "select",
+          "id": "columns",
+          "label": "Link list columns",
+          "default": "one",
+          "options": [
+            {
+              "value": "one",
+              "label": "One column"
+            },
+            {
+              "value": "two",
+              "label": "Two columns"
+            },
+            {
+              "value": "three",
+              "label": "Three columns"
+            }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "View all link"
+        },
+        {
+          "type": "range",
+          "id": "block_width",
+          "label": "Block width",
+          "default": 50,
+          "min": 25,
+          "max": 100,
+          "step": 5,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Shop by"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Megamenu feature text.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "Shop"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        },
+        {
+          "type": "range",
+          "id": "block_width",
+          "label": "Block width",
+          "default": 50,
+          "min": 25,
+          "max": 100,
+          "step": 5,
+          "unit": "%"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Megamenu",
+      "blocks": [
+        {
+          "type": "link-list"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["aside","footer","custom.popups"]
+  }
+}
+{% endschema %}
