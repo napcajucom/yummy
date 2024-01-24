@@ -11,42 +11,6 @@
   });
 */
 
-const productMainSlides = document.querySelectorAll(".product-main-slide");
-
-productMainSlides.forEach((slide) => {
-
-  var trigger = slide.querySelector("a.product-video-trigger");
-  
-  if(trigger){
-    slide.classList.add("pointer"); 
-    var img = slide.querySelector(".photoswipe__image");
-    
-    if(img){
-      img.classList.remove("photoswipe__image"); 
-    }
-  }
-    slide.addEventListener("mouseenter", function() {
-      if (window.innerWidth >= 770) {
-        productMainSlides.forEach((slide) => {
-          slide.classList.remove("is-selected");
-        });
-        this.classList.add("is-selected");
-      }
-  });
-  slide.addEventListener("click", function() {
-      if (window.innerWidth >= 770) {
-        
-        const zoomButton2 = this.querySelector("a.product-video-trigger");
-        const zoomButton = this.querySelector("button.product__photo-zoom");
-        if (zoomButton) {
-          zoomButton.click();
-        }else if(zoomButton2){
-          zoomButton2.click();          
-        }
-      }
-  });  
-});
-
 window.theme = window.theme || {};
 window.Shopify = window.Shopify || {};
 
