@@ -4,6 +4,108 @@
   Impulse, by Archetype Themes
   http://archetypethemes.co
 */
+a.product-video-trigger{
+  position:relative;
+  padding:0 !important;
+  background-color:#f03b7c;
+}
+a.product-video-trigger svg{
+  opacity:0;
+  position:fixed !important;
+  pointer-events:none;
+}
+
+a.product-video-trigger,
+.play-video-button {
+	width: 200px;
+	height: 50px;
+	border-radius: 32px;
+	position: absolute;
+	border: 2px solid #fff;
+	opacity: 0.9;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	pointer-events: none;
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+}
+a.product-video-trigger{
+  pointer-events:auto;
+}
+a.product-video-trigger:before,
+.play-video-button:before{
+	content:"PLAY VIDEO";
+	display:inline-block;
+}
+a.product-video-trigger:after,
+.play-video-button:after {
+	content: "";
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+	border-left: 14px solid #fff;
+	margin-left: 15px;
+	pointer-events: none;
+}
+.__video{
+  position:relative;
+}
+img.stretched{
+  width:100%;
+  height:auto;
+}
+@media screen and (min-width:770px){
+  .product__thumbs{
+  	display:none;
+  }
+  .flickity-viewport .flickity-slider,
+  .flickity-viewport {
+  	height: auto !important;
+  	position:relative;
+  	transform: translateX(0%) !important;
+    display:flex;
+    flex-wrap:wrap;
+     cursor: -webkit-zoom-in;
+     cursor: zoom-in;    
+  }
+  .product-slideshow.flickity-enabled .flickity-viewport .product-main-slide {
+  	margin:0;
+  	display: block;
+  	position: relative !important;
+  	width: 50%;
+  	transform: translateX(0) !important;
+    box-sizing:border-box;
+    padding:5px;
+  }
+
+  .product-slideshow.flickity-enabled .flickity-viewport .product-main-slide.pointer {
+    cursor:pointer !important;
+  }
+  .flickity-page-dots,
+  button.product__photo-zoom{
+    opacity:0 !important;
+    width:0;
+    height:0;
+    position:fixed;
+  }
+  .page-content.page-content--product > div> div> div:nth-child(1){
+    width:66.66% !important;
+  }  
+  .page-content.page-content--product > div > div > div:nth-child(2){
+    width:33.33% !important;
+  }  
+  .product-single__meta{
+   padding-left:0 !important; 
+  }
+  .flickity-viewport .product-main-slide > .product-image-main > .image-wrap{
+    padding-bottom:100% !important;
+  }
+}
 
 :root{
   --colorAnnouncement:{{ settings.color_announcement | default: "#1c1d1d" }};
